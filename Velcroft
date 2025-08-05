@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MC Server Event Teams</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cool fonts and icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #45aaf2 0%, #a55eea 100%);
+            font-family: 'Press Start 2P', monospace;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #2d3436;
+            padding: 1em;
+            text-align: center;
+            box-shadow: 0 2px 8px #2229;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 2px;
+            color: #fdcb6e;
+            text-shadow: 2px 2px #0004;
+        }
+        nav {
+            margin: 1em 0;
+            text-align: center;
+        }
+        nav a {
+            color: #00b894;
+            text-decoration: none;
+            margin: 0 1em;
+            font-size: 1.1em;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #fdcb6e;
+        }
+        main {
+            max-width: 900px;
+            margin: 2em auto;
+            background: #222e;
+            border-radius: 12px;
+            box-shadow: 0 4px 32px #0006;
+            padding: 2em;
+        }
+        .team-form, .teams-list {
+            margin-bottom: 2em;
+        }
+        .team-form h2 {
+            color: #00b894;
+        }
+        .team-form label {
+            display: block;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .team-form input, .team-form textarea {
+            width: 100%;
+            padding: 0.6em;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-size: 1em;
+            margin-bottom: 1em;
+        }
+        .team-form button {
+            background: #fdcb6e;
+            color: #222;
+            font-family: inherit;
+            font-size: 1em;
+            padding: 0.7em 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0004;
+            transition: background 0.2s;
+        }
+        .team-form button:hover {
+            background: #00b894;
+            color: #fff;
+        }
+        .teams-list h2 {
+            color: #fdcb6e;
+        }
+        .team-card {
+            background: #636e72;
+            border-radius: 8px;
+            margin-bottom: 1.5em;
+            padding: 1em;
+            box-shadow: 0 2px 12px #0004;
+            position: relative;
+        }
+        .team-card h3 {
+            margin: 0 0 0.5em;
+            color: #00b894;
+        }
+        .team-card .desc {
+            margin-bottom: 0.7em;
+            color: #fff;
+        }
+        .team-card .members {
+            margin-bottom: 0.7em;
+        }
+        .team-card .discord {
+            margin-bottom: 0.7em;
+            color: #00b894;
+            font-size: 0.95em;
+        }
+        .team-card .features {
+            margin-top: 0.7em;
+            font-size: 0.9em;
+            color: #fdcb6e;
+        }
+        .team-card .join-btn, .team-card .leave-btn, .team-card .del-btn {
+            background: #00b894;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5em 1em;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 1px 6px #0004;
+            transition: background 0.2s;
+            margin-right: 0.7em;
+        }
+        .team-card .join-btn:hover, .team-card .leave-btn:hover, .team-card .del-btn:hover {
+            background: #fdcb6e;
+            color: #222;
+        }
+        .team-card .del-btn {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            background: #e17055;
+            color: #fff;
+        }
+        .team-card .del-btn:hover {
+            background: #d63031;
+            color: #fff;
+        }
+        .team-card .leave-btn {
+            background: #636e72;
+        }
+        /* Animated heading */
+        .rainbow {
+            background-image: linear-gradient(90deg, #fdcb6e 0%, #00b894 50%, #a55eea 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 2s linear infinite;
+            font-weight: bold;
+        }
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        /* Responsive */
+        @media (max-width: 600px) {
+            main {
+                padding: 1em;
+            }
+            header h1 {
+                font-size: 1.2em;
+            }
+        }
+        .user-box {
+            background: #636e72;
+            color: #fdcb6e;
+            padding: 1em;
+            border-radius: 8px;
+            margin-bottom: 2em;
+            font-size: 1.1em;
+            box-shadow: 0 2px 12px #0002;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="rainbow"><i class="fas fa-cube"></i> MC Server Event Teams <i class="fas fa-users"></i></h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Create Team</a>
+            <a href="#">Teams</a>
+            <a href="#">Leaderboard</a>
+            <a href="#">Events</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="user-box">
+                <strong>Logged in as:</strong> <span id="mcName"></span><br>
+                <strong>Discord:</strong> <span id="discordName"></span>
+                <button onclick="changeUser()">Change User</button>
+            </div>
+        </section>
+        <section class="team-form">
+            <h2><i class="fas fa-plus"></i> Create a Team</h2>
+            <form id="createTeamForm">
+                <label for="teamName">Team Name</label>
+                <input type="text" id="teamName" name="teamName" required maxlength="24" placeholder="e.g. EnderDragons">
+                
+                <label for="teamDesc">Description</label>
+                <textarea id="teamDesc" name="teamDesc" rows="3" placeholder="What's your team's goal?"></textarea>
+                
+                <label for="teamFeatures">Cool Stuff & Features</label>
+                <input type="text" id="teamFeatures" name="teamFeatures" maxlength="64" placeholder="e.g. PvP, Building, Redstone Masters">
+                
+                <label for="discordTeam">Your Discord Username</label>
+                <input type="text" id="discordTeam" name="discordTeam" maxlength="32" placeholder="e.g. Soneeea#0001" required>
+                
+                <button type="submit"><i class="fas fa-plus"></i> Post Team</button>
+            </form>
+        </section>
+        <section class="teams-list">
+            <h2><i class="fas fa-users"></i> Teams</h2>
+            <div id="teamsContainer">
+                <!-- Teams will show here! -->
+            </div>
+        </section>
+    </main>
+    <footer style="background:#2d3436;color:#fdcb6e;text-align:center;padding:1em 0;">
+        <span><i class="fab fa-minecraft"></i> <i class="fab fa-github"></i></span>
+    </footer>
+    <script>
+        // User login and discord name
+        let user = localStorage.getItem('mcUser') || prompt("Enter your Minecraft name:");
+        let discord = localStorage.getItem('mcDiscord') || prompt("Enter your Discord username:");
+        localStorage.setItem('mcUser', user);
+        localStorage.setItem('mcDiscord', discord);
+
+        document.getElementById('mcName').textContent = user;
+        document.getElementById('discordName').textContent = discord;
+
+        function changeUser() {
+            user = prompt("Minecraft name:", user) || user;
+            discord = prompt("Discord username:", discord) || discord;
+            localStorage.setItem('mcUser', user);
+            localStorage.setItem('mcDiscord', discord);
+            document.getElementById('mcName').textContent = user;
+            document.getElementById('discordName').textContent = discord;
+            renderTeams();
+        }
+
+        // Store teams in localStorage
+        let teams = JSON.parse(localStorage.getItem('mcTeams') || '[]');
+
+        function saveTeams() {
+            localStorage.setItem('mcTeams', JSON.stringify(teams));
+        }
+
+        function renderTeams() {
+            const container = document.getElementById('teamsContainer');
+            container.innerHTML = '';
+            teams.forEach((team, i) => {
+                // Only show join if not owner/only member and not in the team
+                let isOwner = team.owner === user;
+                let isMember = team.members.includes(user);
+                let canJoin = !isMember && team.members.length < 2;
+                let canLeave = isMember && !isOwner;
+                let canDelete = isOwner;
+                container.innerHTML += `
+                <div class="team-card">
+                    <h3>${team.name}</h3>
+                    <div class="desc">${team.desc}</div>
+                    <div class="discord"><i class="fab fa-discord"></i> Team Discord: <span>${team.discord}</span></div>
+                    <div class="members"><i class="fas fa-user-friends"></i> Members: ${team.members.join(', ')}</div>
+                    ${canJoin ? `<button class="join-btn" onclick="joinTeam(${i})"><i class="fas fa-sign-in-alt"></i> Join</button>` : ''}
+                    ${canLeave ? `<button class="leave-btn" onclick="leaveTeam(${i})"><i class="fas fa-sign-out-alt"></i> Leave</button>` : ''}
+                    ${canDelete ? `<button class="del-btn" onclick="deleteTeam(${i})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    <div class="features"><i class="fas fa-star"></i> Features: ${team.features}</div>
+                </div>
+                `;
+            });
+        }
+
+        function joinTeam(idx) {
+            const team = teams[idx];
+            if (team.members.length >= 2) {
+                alert("This team is full!");
+                return;
+            }
+            if (!team.members.includes(user)) {
+                team.members.push(user);
+                saveTeams();
+                renderTeams();
+                alert("You joined " + team.name + "!");
+            }
+        }
+
+        function leaveTeam(idx) {
+            const team = teams[idx];
+            if (team.owner === user) {
+                alert("You are the owner, delete the team if you want to leave!");
+                return;
+            }
+            team.members = team.members.filter(n => n !== user);
+            saveTeams();
+            renderTeams();
+            alert("You left " + team.name + ".");
+        }
+
+        function deleteTeam(idx) {
+            if (teams[idx].owner !== user) {
+                alert("Only the owner can delete the team!");
+                return;
+            }
+            if (confirm("Delete team '" + teams[idx].name + "'?")) {
+                teams.splice(idx, 1);
+                saveTeams();
+                renderTeams();
+            }
+        }
+
+        document.getElementById('createTeamForm').onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('teamName').value.trim();
+            const desc = document.getElementById('teamDesc').value.trim();
+            const features = document.getElementById('teamFeatures').value.trim();
+            const discordTeam = document.getElementById('discordTeam').value.trim();
+            if (name.length < 2) {
+                alert('Team name too short!');
+                return;
+            }
+            if (teams.find(t => t.name.toLowerCase() === name.toLowerCase())) {
+                alert('Team name already exists!');
+                return;
+            }
+            teams.push({
+                name,
+                desc,
+                features,
+                discord: discordTeam,
+                members: [user],
+                owner: user
+            });
+            saveTeams();
+            renderTeams();
+            this.reset();
+            alert('Team posted!');
+        };
+
+        // Remove any old/fake demo teams if present
+        if (teams.length && teams.some(t => !t.owner)) {
+            teams = teams.filter(t => !!t.owner);
+            saveTeams();
+        }
+
+        renderTeams();
+    </script>
+</body>
+</html>
